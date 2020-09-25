@@ -22,6 +22,11 @@ const git: SimpleGit = simpleGit({
       .split("\n")
       .map((s) => s.trim())
       .filter((s) => s);
-    console.log("show", filesChanged);
+    for (const fc of filesChanged) {
+      if (fc.endsWith(".cshtml")) {
+        const content = await git.show([`${log.hash}:${fc}`]);
+        console.log(chalk.bgGreen(fc), "\r\n", content);
+      }
+    }
   }
 })();
